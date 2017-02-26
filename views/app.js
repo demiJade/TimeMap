@@ -17,7 +17,7 @@ $.getJSON( "tripsByDate.json", function( data ) {
 		  var chartdata = data;
 		  console.log(data);
 		  data.forEach(function(x){
-		  	hourData[x._id.hour] = x[value][trips];
+		  	hourData[x._id.hour] = x["value"]["trips"];
 		  });
 		  // $.each( data, function( key, val ) {
 		    
