@@ -37,3 +37,16 @@ var mapByHour = function(){
 		trips: [this]
 	});
 }
+
+var mapByHourAndDate = function(){
+	var date = this.created_at_local.substr(0, 10);
+	var created_at_local = this.created_at_local.split(" ");
+	var time = created_at_local[1];
+	var hour = time.substr(0,2);
+	emit({
+		date: date,
+		hour: hour
+	}, {
+		trips: [this]
+	});
+}

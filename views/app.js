@@ -1,18 +1,29 @@
+	  var app = new Vue({
+		  el: '#app',
+		  data: {
+		    hour: 0
+		  },
+		  watch: {
+		  	hour: function(newHour){
+		  		drawMap();
+		  	}
+		  }
+		})
 var hourData = {};
-$.getJSON( "tripsByDate.json", function( data ) {
-		  var chartdata = data;
-		  console.log(data);
-		  // $.each( data, function( key, val ) {
+// $.getJSON( "tripsByDate.json", function( data ) {
+// 		  var chartdata = data;
+// 		  console.log(data);
+// 		  // $.each( data, function( key, val ) {
 		    
-		  // });
-		});
-		$.getJSON( "tripsByTime.json", function( data ) {
-		  var chartdata = data;
-		  console.log(data);
-		  // $.each( data, function( key, val ) {
+// 		  // });
+// 		});
+// 		$.getJSON( "tripsByTime.json", function( data ) {
+// 		  var chartdata = data;
+// 		  console.log(data);
+// 		  // $.each( data, function( key, val ) {
 		    
-		  // });
-		});
+// 		  // });
+// 		});
 		$.getJSON( "tripsByHour.json", function( data ) {
 		  var chartdata = data;
 		  console.log(data);
@@ -27,19 +38,30 @@ $.getJSON( "tripsByDate.json", function( data ) {
 	    google.charts.setOnLoadCallback(drawMap);
 
 	    function drawMap() {
-	      var data = google.visualization.arrayToDataTable([
-	        ['Country', 'Population'],
-	        ['China', 'China: 1,363,800,000'],
-	        ['India', 'India: 1,242,620,000'],
-	        ['US', 'US: 317,842,000'],
-	        ['Indonesia', 'Indonesia: 247,424,598'],
-	        ['Brazil', 'Brazil: 201,032,714'],
-	        ['Pakistan', 'Pakistan: 186,134,000'],
-	        ['Nigeria', 'Nigeria: 173,615,000'],
-	        ['Bangladesh', 'Bangladesh: 152,518,015'],
-	        ['Russia', 'Russia: 146,019,512'],
-	        ['Japan', 'Japan: 127,120,000']
-	      ]);
+	    	var data = new google.visualization.DataTable();
+	    	data.addColumn('number', 'Lat');
+	    	data.addColumn('number', 'Long');
+	    	data.addColumn('string', 'Date');
+	    	var hour = app.hour;
+	    	if (app.hour < 10){
+	    		hour = '0' + app.hour;
+	    	}
+	    	for (var i = 0; i < 100; i++){
+
+	    		var x = hourData[hour][i];
+	    		data.addRow([x.pick_up_latitude, x.pick_up_longitude, x.created_at_local]);
+	    	}
+	    	// hourData[app.hour].forEach(function(x){
+	    	// 	data.addRow([x.pick_up_latitude, x.pick_up_longitude, x.created_at_local]);
+	    	// })
+
+	   //    var data = google.visualization.arrayToDataTable([
+		  //   ['Lat', 'Long', 'Name'],
+		  //   [37.4232, -122.0853, 'Work'],
+		  //   [37.4289, -122.1697, 'University'],
+		  //   [37.6153, -122.3900, 'Airport'],
+		  //   [37.4422, -122.1731, 'Shopping']
+		  // ]);
 
 	    var options = {
 	      showTooltip: true,
@@ -51,14 +73,3 @@ $.getJSON( "tripsByDate.json", function( data ) {
 	    map.draw(data, options);
 	  };
 
-	  var app = new Vue({
-		  el: '#app',
-		  data: {
-		    hour: 0
-		  },
-		  watch: {
-		  	hour: function(newHour){
-
-		  	}
-		  }
-		})
